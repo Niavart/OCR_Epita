@@ -68,15 +68,35 @@ SDL_Surface* display_image(SDL_Surface *img) {
 int main ()
 {
 	SDL_Surface *img = load_image("image.bmp");
-	SDL_GetRGB(getpixel(img,300,300), img->format, &r, &g, &b);
-	unsigned x = 10;
-	while (x < 50)
+	Uint8 r = 0;
+	Uint8 g = 0;
+	Uint8 b = 0;
+	float fr;
+	float fg;															// Même si ça compile, y'a peut-être une erreur typage
+	float fb;
+	int x = 0;
+	int y = 0;
+	Uint32 pixel;
+	while (x != img->w)
 	{
-		putpixel(img, x, 100, 1);
+		while (y != img->h)											// Doit y avoir une erreur dans le main,...
+		{
+			pixel = getpixel(img, x, y);
+			SDL_GetRGB(pixel, img->format, &r, &g, &b);
+			fr = 0.3 * r;
+			fg = 0.59 * g;
+			fb = 0.11 * b;
+			r = fr;
+			g = fg;
+			b = fb;
+			pixel = SDL_MapRGB(img->format, r, g, b);			// La double boucle est 100% correcte (certain)
+			putpixel(img, x, y, pixel);
+			y++;	
+		}
+		y = 0;
 		x++;
 	}
-	display_image(img);
-	
+	display_image(img);												// ... Parce que ce display affiche un cheval vert mdr
 	return 0;
 }
 
