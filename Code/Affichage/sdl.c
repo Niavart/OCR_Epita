@@ -71,9 +71,6 @@ int main ()
 	Uint8 r = 0;
 	Uint8 g = 0;
 	Uint8 b = 0;
-	float fr;
-	float fg;															// Même si ça compile, y'a peut-être une erreur typage
-	float fb;
 	int x = 0;
 	int y = 0;
 	Uint32 pixel;
@@ -83,14 +80,22 @@ int main ()
 		{
 			pixel = getpixel(img, x, y);
 			SDL_GetRGB(pixel, img->format, &r, &g, &b);
-			fr = 0.3 * r;
-			fg = 0.59 * g;
-			fb = 0.11 * b;
-			r = fr;
-			g = fg;
-			b = fb;
+			if ((r + g + b)/3 >= 127)
+			{
+			r = 255;
+			g = 255;
+			b = 255;
 			pixel = SDL_MapRGB(img->format, r, g, b);			// La double boucle est 100% correcte (certain)
 			putpixel(img, x, y, pixel);
+			}
+			else
+			{
+			r = 0;
+			g = 0;
+			b = 0;
+			pixel = SDL_MapRGB(img->format, r, g, b);			// La double boucle est 100% correcte (certain)
+			putpixel(img, x, y, pixel);
+			}
 			y++;	
 		}
 		y = 0;
