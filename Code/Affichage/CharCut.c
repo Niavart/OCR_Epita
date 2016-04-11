@@ -26,6 +26,7 @@ void Line(SDL_Surface *surf)
   int larg=surface->w;
   int haut=0;
   int booleen = 0;
+  int booleen2 = 0;
   int r = 0;
   int g = 0;
   int b = 0;
@@ -40,18 +41,30 @@ void Line(SDL_Surface *surf)
       if(r==0 && g==0 && b==0) /* Si c'est noir */
       {
 	booleen = booleen + 1;
+	booleen2 = 0;
       }
     }
     if(booleen == 0) /*check si c'est une ligne blanche, sinon ça part*/
     {
-      SDL_Rect tile;
-      tile.x = Xmin;
-      tile.y = Ymin;
-      tile.h = haut;
-      tile.w = larg;
-      Char(SDL_BlitSurface(surf, &tile, temp_surface, &positionExt));
-
+      if(booleen2 == 1)
+      {
+	haut = 0;
+	Ymin = y + 1;
+      }
+      if(booleen2 == 0)
+      {
+      	SDL_Rect tile;
+      	tile.x = Xmin;
+      	tile.y = Ymin;
+      	tile.h = haut;
+      	tile.w = larg;
+      	Char(SDL_BlitSurface(surf, &tile, temp_surface, &positionExt));
+      	Ymin = y + 1;
+      	haut = 0;
+	booleen2 = 1;
+      }
     }
+    haut = haut + 1;
     booleen = 0;
   }
 }
