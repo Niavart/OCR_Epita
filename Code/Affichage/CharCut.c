@@ -26,13 +26,18 @@ void Line(SDL_Surface *surf)
   int larg=surface->w;
   int haut=0;
   int booleen = 0;
+  int r = 0;
+  int g = 0;
+  int b = 0;
   Uint32 pixel;
   SDL_LockSurface(surf);
   for(y=0;y<surface->h;y++)
   {
     for(x=0;x<surface->w;x++)
     {
-      if() /* Si c'est noir */
+      pixel = getpixel(surf, x, y);
+      SDL_GetRGB(pixel, surf->format, &r, &g, &b);
+      if(r==0 && g==0 && b==0) /* Si c'est noir */
       {
 	booleen = booleen + 1;
       }
