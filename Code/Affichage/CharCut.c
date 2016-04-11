@@ -42,9 +42,15 @@ void Line(SDL_Surface *surf)
 	booleen = booleen + 1;
       }
     }
-    if(booleen == 0)
+    if(booleen == 0) /*check si c'est une ligne blanche, sinon ça part*/
     {
-      SavePartScreen(
+      SDL_Rect tile;
+      tile.x = Xmin;
+      tile.y = Ymin;
+      tile.h = haut;
+      tile.w = larg;
+      Char(SDL_BlitSurface(surf, &tile, temp_surface, &positionExt));
+
     }
     booleen = 0;
   }
