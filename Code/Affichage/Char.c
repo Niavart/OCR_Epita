@@ -1,7 +1,5 @@
 # include <SDL.h>
 # include <stdlib.h>
-# include "pixel_operations.h"
-# include "pixel_operations.c"
 # include "Char.h"
 # include "sdl.h"
 

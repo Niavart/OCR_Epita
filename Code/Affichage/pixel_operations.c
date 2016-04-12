@@ -50,3 +50,5 @@ void putpixel(SDL_Surface *surface, unsigned x, unsigned y, Uint32 pixel) {
     break;
   }
 }
+
+
