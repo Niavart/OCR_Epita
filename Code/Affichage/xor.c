@@ -4,14 +4,18 @@
 
 
 float poids[7][7];
-float x;	//entree x
-float y;	//entree y
-float bh;	//biais de h
-float h;	//neurone couche cachee
-float z;	//sortie
-float bz;	//biais de z
+float x;	//entree x (1)
+float y;	//entree y (2)
+float bh;	//biais de h (3)
+float h;	//neurone couche cachee (4)
+float z;	//sortie (6)
+float bz;	//biais de z (5)
+float v; // VELOCITE
 
 float XORtab[4][3];
+
+int iterations;
+
 
 void init() // initialise le reseau (avant apprentissage)
 {
@@ -27,7 +31,7 @@ void init() // initialise le reseau (avant apprentissage)
 		i++;
 		j=0;
 	}
-
+	v=2.0;
 	x=1;
 	y=0;
 	h=0.5;
@@ -46,7 +50,7 @@ void init() // initialise le reseau (avant apprentissage)
 	XORtab[3][0] = 1;
 	XORtab[3][1] = 1;
 	XORtab[3][2] = 0;
-
+	iterations = 0;
 
 }
 
@@ -62,7 +66,7 @@ float ns(float a, float b) //calcule la valeur de sortie
 }
 
 
-float calcerreur(float a, float b) // calcule l'erreur en fonction de x et de y
+float calcerreurfin(float a, float b) // calcule l'erreur en fonction de x et de y sur le neurone output
 {
 	float ok = ns(a, b);
 	float der = ok*(1-ok);
@@ -77,11 +81,53 @@ float calcerreur(float a, float b) // calcule l'erreur en fonction de x et de y
 
 }
 
+void majpoidsfin() // met à jour les poids reliés au neurone output
+{
+	poids[1][6] = (poids[1][6]) + (v*calcerreurfin(x,y)*x);
+	poids[2][6] = (poids[2][6]) + (v*calcerreurfin(x,y)*y);
+	poids[4][6] = (poids[4][6]) + (v*calcerreurfin(x,y)*h);
+	poids[5][6] = (poids[5][6]) + (v*calcerreurfin(x,y)*bz);
+}
+
+float calcerreurcache(float a, float b) // calcule l'erreur en fonction de x et de y sur le neurone couche cachée
+{
+	float ok = nc(a,b);
+	float der = ok*(1-ok);
+	return (der*(poids[4][6])*calcerreurfin(a,b));
+}
+
+void majpoidscache() // met à jour les poids reliés au neurone caché (càd x, y et le biais h)
+{
+	poids[1][4] = poids[1][4] + (v*calcerreurcache(x,y)*x);
+	poids[2][4] = poids[2][4] + (v*calcerreurcache(x,y)*y);
+	poids[3][4] = poids[3][4] + (v*calcerreurcache(x,y)*bh);
+}
+
+void boucle(float a, float b)
+{
+	x = a;
+	y = b;
+	h = nc(x,y);
+	z = ns(x,y);
+	majpoidsfin();
+	majpoidscache();
+}
 
 int main()
 {
-	return 0;
+	init();
+	while(iterations < 1000)
+	{
+		boucle(1,0);
+		printf("%d", iterations);
+		iterations++;
+	}
 }
+
+
+
+
+
 
 
 
