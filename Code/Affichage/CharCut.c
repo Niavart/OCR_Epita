@@ -1,10 +1,7 @@
 #include <SDL.h>
 #include <stdlib.h>
-# include "Char.c"
-# include "pixel_operations.h"
-# include "pixel_operations.c"
-
-
+# include "CharCut.h"
+# include "Char.h"
 
 Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y) {
   Uint8 *p = pixelref(surface, x, y);
@@ -20,15 +17,15 @@ Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y) {
       return p[0] | p[1] << 8 | p[2] << 16;
   case 4:
       return *(Uint32 *)p;
-  }				  }
+  }
   return 0;
 }
 
 void Line(SDL_Surface *surf)
 {
-  int Xmin= 0;
+  //int Xmin= 0;
   int Ymin= 0;
-  int larg = 0;
+  //int larg = 0;
   int haut = 0;
   int booleen = 0;
   int booleen2 = 0;

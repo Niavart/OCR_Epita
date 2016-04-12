@@ -3,6 +3,9 @@
 #include "sdl.h"
 #include "pixel_operations.h"
 #include "pixel_operations.c"
+#include "CharCut.h"
+#include "CharCut.c"
+
 
 void wait_for_keypressed(void) {
   SDL_Event             event;
@@ -67,7 +70,7 @@ SDL_Surface* display_image(SDL_Surface *img) {
 
 int main ()
 {
-	SDL_Surface *img = load_image("image.bmp");
+	SDL_Surface *img = load_image("Boucher.bmp");
 	Uint8 r = 0;
 	Uint8 g = 0;
 	Uint8 b = 0;
@@ -101,7 +104,8 @@ int main ()
 		y = 0;
 		x++;
 	}
-	display_image(img);												// ... Parce que ce display affiche un cheval vert mdr
+	Line(img);
+	//display_image(img);												// ... Parce que ce display affiche un cheval vert mdr
 	return 0;
 }
 
