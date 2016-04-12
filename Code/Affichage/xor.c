@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#include <time.h>
 
 float poids[7][7];
 float x;	//entree x (1)
@@ -103,7 +103,7 @@ void majpoidscache() // met à jour les poids reliés au neurone caché (càd x,
 	poids[3][4] = poids[3][4] + (v*calcerreurcache(x,y)*bh);
 }
 
-void boucle(float a, float b)
+void boucle(float a, float b) // Itère une fois l'algorithme d'attribution de valeurs
 {
 	x = a;
 	y = b;
@@ -113,15 +113,40 @@ void boucle(float a, float b)
 	majpoidscache();
 }
 
+void printw() // Fonction d'affichage
+{
+	printf("Iteration n° %d\n", iterations);
+	printf("Pour x=%f et y=%f\n\n",x, y);
+	printf("valeur du poids x->h : %f \n", poids[1][4]);
+	printf("valeur du poids y->h : %f \n", poids[2][4]);
+	printf("valeur du poids bh->h : %f \n", poids[3][4]);
+	printf("valeur du poids x->z : %f\n", poids[1][6]);
+	printf("valeur du poids y->z : %f\n", poids[2][6]);
+	printf("valeur du poids h->z : %f\n", poids[4][6]);
+	printf("valeur du poids bz->z : %f\n", poids[5][6]);
+	printf("Valeur de z : %f\n",z);
+	printf("___________________________\n\n");
+	
+}
+
+int randab(int a, int b){ // Une fonction random qui décide quelles valeurs donner à x et y
+    return rand()%(b-a) +a;
+}
+
+
+
+
 int main()
 {
 	init();
-	while(iterations < 1000)
-	{
-		boucle(1,0);
-		printf("%d", iterations);
+	while(z < 0.99999)
+	{		
+		boucle(randab(0,2), randab(0,2));
+		printw();
 		iterations++;
 	}
+
+	return 0;
 }
 
 
