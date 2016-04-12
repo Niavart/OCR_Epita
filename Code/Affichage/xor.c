@@ -115,7 +115,7 @@ void boucle(float a, float b) // Itère une fois l'algorithme d'attribution de v
 
 void printw() // Fonction d'affichage
 {
-	printf("Iteration n° %d\n", iterations);
+	printf("Iteration n° \033[0;37;44m%d\033[0m\n", iterations);
 	printf("Pour x=%f et y=%f\n\n",x, y);
 	printf("valeur du poids x->h : %f \n", poids[1][4]);
 	printf("valeur du poids y->h : %f \n", poids[2][4]);
@@ -124,7 +124,7 @@ void printw() // Fonction d'affichage
 	printf("valeur du poids y->z : %f\n", poids[2][6]);
 	printf("valeur du poids h->z : %f\n", poids[4][6]);
 	printf("valeur du poids bz->z : %f\n", poids[5][6]);
-	printf("Valeur de z : %f\n",z);
+	printf("Valeur de z : \033[0;37;43m%f\033[0m\n",z);
 	printf("___________________________\n\n");
 	
 }
