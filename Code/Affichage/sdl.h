@@ -17,3 +17,10 @@ SDL_Surface* load_image(char *path);
 
 SDL_Surface* display_image(SDL_Surface *img);
 //Règle une surface en fonction de la taille de l'image, met l'image dedans, et attend qu'une touche soit pressée.
+
+
+Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y);
+void Line(SDL_Surface *surf);
+void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg);
+void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg);
+
