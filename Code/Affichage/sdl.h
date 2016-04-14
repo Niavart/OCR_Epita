@@ -23,4 +23,4 @@ Uint32 getpixel(SDL_Surface *surface, unsigned x, unsigned y);
 void Line(SDL_Surface *surf);
 void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg);
 void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg);
-
+void SavePartScreen(const char* nom, SDL_Surface *ecran, int Xmin, int Ymin, int larg, int haut);

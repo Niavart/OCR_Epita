@@ -69,9 +69,10 @@ SDL_Surface* display_image(SDL_Surface *img) {
   return screen;
 }
 
-int main ()
+int main (int argc, char *argv[])
 {
-	SDL_Surface *img = load_image("Boucher.bmp");
+	char *name = argv[argc-2];
+	SDL_Surface *img = load_image(name);//"couleurs.bmp");
 	Uint8 r = 0;
 	Uint8 g = 0;
 	Uint8 b = 0;
@@ -105,8 +106,12 @@ int main ()
 		y = 0;
 		x++;
 	}
+	if(strcmp(argv[argc-1], "1")){
 	Line(img);
-	//display_image(img);												// ... Parce que ce display affiche un cheval vert mdr
+	}
+	else{
+	display_image(img);
+	}
 	return 0;
 }
 
@@ -167,16 +172,24 @@ void Line(SDL_Surface *surf)
     booleen = 0;
   }
 }
-/*
+
 void SavePartScreen(const char* nom, SDL_Surface *ecran, int Xmin, int Ymin, int larg, int haut){
   SDL_Surface *image = NULL;
   SDL_Rect rect1, rect2;
-  image = SDL_CreateRGBSurface (SDL_HWSURFACE, larg, haut, 32, 0, 0, 0, 0);
-  SDL_FillRect(image, NULL, SDL_MapRGB(ecran->format, 250, 250, 250));
+  image = SDL_CreateRGBSurface (SDL_HWSURFACE, larg, haut, 16, 0, 0, 0, 0);
+  if (image == NULL){ printf("\n FAIL CREATERGB");}
+//  SDL_FillRect(image, NULL, SDL_MapRGB(ecran->format, 250, 250, 250));
   rect1.x = Xmin, rect1.y = Ymin, rect1.w = larg, rect1.h = haut;
-  SDL_SaveBMP(image, nom);
+  rect2.x = 0, rect2.y = 0, rect2.w = larg, rect2.h = haut;
+  SDL_UnlockSurface(image);
+   SDL_UnlockSurface(ecran);
+  printf("\n %d \n", SDL_BlitSurface(ecran, &rect1 , image,&rect2));
+ printf("SDL blit surf	ce: %s\n", SDL_GetError());
+
+ SDL_SaveBMP(image, nom);
+ display_image(image);
   SDL_FreeSurface(image);
-}*/
+}
 
 void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
  int booleen =  0;
@@ -208,8 +221,10 @@ void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
       if(booleen2 == 0)
       {
         test2nd++;
+	printf("%d \n", test2nd);
         if(test2nd == 2){
-           neurone(surf, Xmin, Ymin, haut, larg);
+           	printf("envoi neurone()");
+		neurone(surf, Xmin, Ymin, haut, larg);
         }
         Xmin = x + 1;
         larg = 0;
@@ -227,12 +242,19 @@ void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
   OneChar.y = Ymin;
   OneChar.w = larg;
   OneChar.h = haut;
-  SDL_Surface disp;
+//  SDL_Surface *disp = SDL_CreateRGBSurface(0, larg-Xmin, haut-Ymin, 32, 0, 0, 0, 0);
+  SDL_Rect dstrect;
+	dstrect.x = 0;
+	dstrect.y = 0;
+  printf("x %d, y %d, larg %d, haut %d", Xmin, Ymin, larg, haut);
+  printf("surf.x %d, surf.y %d", surf->h, surf->w);
 //  char *name = "test.bmp";
-  SDL_BlitSurface(surf, &OneChar, &disp, NULL);
+ SavePartScreen("THISISOURCHARACTER.bmp", surf, Xmin, Ymin, larg, haut);
+//  printf("%d", SDL_BlitSurface(surf, NULL/*&OneChar*/, disp, &dstrect));
 //  SDL_SaveBMP(&disp, &name);
-  display_image(&disp);
-  SDL_FreeSurface(&disp);
+//  display_image(&disp);
+//  SDL_SaveBMP(&disp, "test.bmp");
+//  SDL_FreeSurface(&disp);
 }
 
 
