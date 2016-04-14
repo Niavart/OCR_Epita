@@ -11,7 +11,7 @@ float h;	//neurone couche cachee (4)
 float z;	//sortie (6)
 float bz;	//biais de z (5)
 float v; // VELOCITE
-
+float expected; // Valeur attendue
 float XORtab[4][3];
 
 int iterations;
@@ -38,6 +38,7 @@ void init() // initialise le reseau (avant apprentissage)
 	z=0.5;
 	bz=1;
 	bh=1;
+	expected = 1;
 	XORtab[0][0] = 0;
 	XORtab[0][1] = 0;
 	XORtab[0][2] = 0;
@@ -56,13 +57,13 @@ void init() // initialise le reseau (avant apprentissage)
 
 float nc(float a, float b) // calcule la valeur du neurone en couche cachee
 {
-	return (1/(1+exp((a*(poids[1][4]))+(bh*(poids[3][4]))+(b*(poids[2][4])))));
+	return (1/(1+exp(-((a*(poids[1][4]))+(bh*(poids[3][4]))+(b*(poids[2][4]))))));
 }
 
 float ns(float a, float b) //calcule la valeur de sortie
 {
 	float nint = nc(a, b);
-	return(1/(1+exp((a*(poids[1][6]))+(b*(poids[2][6]))+(nint*(poids[4][6]))+(bz*(poids[5][6])))));
+	return(1/(1+exp(-((a*(poids[1][6]))+(b*(poids[2][6]))+(nint*(poids[4][6]))+(bz*(poids[5][6]))))));
 }
 
 
@@ -70,14 +71,9 @@ float calcerreurfin(float a, float b) // calcule l'erreur en fonction de x et de
 {
 	float ok = ns(a, b);
 	float der = ok*(1-ok);
-	if(a != b)
-	{
-		return ((1-ok)*der);
-	}
-	else
-	{
-		return ((0-ok)*der);
-	}
+	if(expected == 1){
+	return((1-ok)*der);}
+	else {return((0-ok)*der); }
 
 }
 
@@ -105,6 +101,16 @@ void majpoidscache() // met à jour les poids reliés au neurone caché (càd x,
 
 void boucle(float a, float b) // Itère une fois l'algorithme d'attribution de valeurs
 {
+	if(a == 1)
+	{
+		if(b == 1) {expected = 0;}
+		else {expected = 1;}
+	}
+	if(a == 0)
+	{
+		if(b == 0) {expected = 0;}
+		else {expected = 1;}
+	}
 	x = a;
 	y = b;
 	h = nc(x,y);
@@ -117,14 +123,14 @@ void printw() // Fonction d'affichage
 {
 	printf("Iteration n° \033[0;37;44m%d\033[0m\n", iterations);
 	printf("Pour x=%f et y=%f\n\n",x, y);
-	printf("valeur du poids x->h : %f \n", poids[1][4]);
-	printf("valeur du poids y->h : %f \n", poids[2][4]);
-	printf("valeur du poids bh->h : %f \n", poids[3][4]);
-	printf("valeur du poids x->z : %f\n", poids[1][6]);
-	printf("valeur du poids y->z : %f\n", poids[2][6]);
-	printf("valeur du poids h->z : %f\n", poids[4][6]);
-	printf("valeur du poids bz->z : %f\n", poids[5][6]);
-	printf("Valeur de z : \033[0;37;43m%f\033[0m\n",z);
+	printf("valeur du poids x <-> h : %f \n", poids[1][4]);
+	printf("valeur du poids y <-> h : %f \n", poids[2][4]);
+	printf("valeur du poids bh <-> h : %f \n", poids[3][4]);
+	printf("valeur du poids x <-> z : %f\n", poids[1][6]);
+	printf("valeur du poids y <-> z : %f\n", poids[2][6]);
+	printf("valeur du poids h <-> z : %f\n", poids[4][6]);
+	printf("valeur du poids bz <-> z : %f\n", poids[5][6]);
+	printf("Valeur de z : \033[0;37;44m%f\033[0m\n",z);
 	printf("___________________________\n\n");
 	
 }
@@ -139,15 +145,25 @@ int randab(int a, int b){ // Une fonction random qui décide quelles valeurs don
 int main()
 {
 	init();
-	while(z < 0.99999)
+	while(fabs(expected-z)>0.01)
 	{		
-		boucle(randab(0,2), randab(0,2));
-		printw();
+		boucle(0,1);
 		iterations++;
+		printw();
+		boucle(1,1);
+		iterations++;
+		printw();
+		boucle(1,0);
+		iterations++;
+		printw();
+		boucle(0,0);
+		iterations++;
+		printw();
 	}
 
 	return 0;
 }
+
 
 
 
