@@ -163,8 +163,6 @@ void Line(SDL_Surface *surf)
 	Ymin = y + 1;
         haut = 0;
         booleen2 = 1;
-	
-
       }
     }
         //else (tant que il y a du noir)
@@ -192,8 +190,8 @@ void SavePartScreen(const char* nom, SDL_Surface *ecran, int Xmin, int Ymin, int
 }
 
 void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
- int booleen =  0;
- int booleen2 = 0;
+ int black =  0;
+ int d_white = 0;
  Uint8 r = 0;
  Uint8 g = 0;
  Uint8 b = 0;
@@ -201,38 +199,38 @@ void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
  int test2nd = 0;
  for(int x = 0; x < surf->w; x++)
   {
-    for(int y= Ymin; y < haut; y++)
+    for(int y= 0; y < haut; y++)
     {
-      pixel = getpixel(surf, x, y);
+      pixel = getpixel(surf, x, y + Ymin);
       SDL_GetRGB(pixel, surf->format, &r, &g, &b);
       if(r==0 && g==0 && b==0) /* Si c'est noir */
       {
-        booleen  = 1;
-        booleen2 = 0;
+        black  = 1;
+        d_white  = 0;
       }
     }
-    if(booleen == 0) /*check si c'est une colonne blanche, sinon ça part*/
+    if(black == 0) /*check si c'est une colonne blanche, sinon ça part*/
     {
-      if(booleen2 == 1)
+      if(d_white == 1)
       {
         larg = 0;
         Xmin = x + 1;
       }
-      if(booleen2 == 0)
+      if(d_white == 0)
       {
         test2nd++;
 	printf(" test du n°ieme char ? %d \n", test2nd);
         if(test2nd > 0){
            	printf("envoi neurone() \n");
-		neurone(surf, Xmin, Ymin, haut, larg);
+	 	neurone(surf, Xmin, Ymin, haut, larg);
         }
         Xmin = x + 1;
         larg = 0;
-        booleen2 = 1;
+        d_white = 1;
       }
     }
     larg = larg + 1;
-    booleen = 0;
+    black = 0;
   }
 }
 
@@ -242,6 +240,25 @@ void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
   OneChar.y = Ymin;
   OneChar.w = larg;
   OneChar.h = haut;
+  Uint8 r = 0;
+  Uint8 g = 0;
+  Uint8 b = 0;
+  int tab[haut][larg];
+  for(int i = 0; i < larg; i++){
+	for(int j = 0; j < haut; j++){
+		//pixel = getpixel(surf, x, y + Ymin);
+   		SDL_GetRGB( getpixel(surf, i+Xmin, j + Ymin), surf->format, &r, &g, &b);
+   		if(r==0 && g==0 && b==0) /* Si c'est noir */
+		{
+			tab[i][j] = 1;
+		}
+		else{
+			tab[i][j] = 0;
+		}
+		printf("%d ",tab[i][j]);
+	}
+	printf("\n");
+ }
 //  SDL_Surface *disp = SDL_CreateRGBSurface(0, larg-Xmin, haut-Ymin, 32, 0, 0, 0, 0);
   SDL_Rect dstrect;
 	dstrect.x = 0;
@@ -255,8 +272,9 @@ void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
 //  display_image(&disp);
 //  SDL_SaveBMP(&disp, "test.bmp");
 //  SDL_FreeSurface(&disp);
+	
 }
-
+void array_for_Nikolas();
 
 
 
