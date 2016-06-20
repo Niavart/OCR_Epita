@@ -243,18 +243,28 @@ void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
   Uint8 r = 0;
   Uint8 g = 0;
   Uint8 b = 0;
-  int tab[haut][larg];
-  for(int i = 0; i < haut; i++){
-	for(int j = 0; j < larg; j++){
-		//pixel = getpixel(surf, x, y + Ymin);
-   		SDL_GetRGB( getpixel(surf, j+Xmin, i + Ymin), surf->format, &r, &g, &b);
-   		if(r==0 && g==0 && b==0) /* Si c'est noir */
-		{
-			tab[j][i] = 1;
-		}
-		else{
-			tab[j][i] = 0;
-		}
+  int hauteur_constante=16;
+  int largeur_constante=16;
+  int tab[hauteur_constante][largeur_constante];
+  for(int i = 0; i < hauteur_constante; i++){
+	for(int j = 0; j < largeur_constante; j++){
+		
+                //pixel = getpixel(surf, x, y + Ymin);
+   		if(i>=haut || j>=larg)
+                {
+                    tab[j][i]=0;
+                }
+                else
+                {
+                    SDL_GetRGB( getpixel(surf, j+Xmin, i + Ymin), surf->format, &r, &g, &b);
+   		    if(r==0 && g==0 && b==0) /* Si c'est noir */
+		    {
+		            tab[j][i] = 1;
+		    }
+		    else{
+			    tab[j][i] = 0;
+		    }
+                }
 		printf("%d ",tab[j][i]);
 	}
 	printf("\n");
