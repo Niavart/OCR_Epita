@@ -119,9 +119,9 @@ int main (int argc, char *argv[])
 
 void Line(SDL_Surface *surf)
 {
-  //int Xmin= 0;
+  int Xmin= 0;
   int Ymin= 0;
-  //int larg = 0;
+  int larg = 0;
   int haut = 0;
   int booleen = 0;
   int booleen2 = 0;
@@ -129,6 +129,7 @@ void Line(SDL_Surface *surf)
   Uint8 g = 0;
   Uint8 b = 0;
   Uint32 pixel;
+  int test2nd = 0;
   SDL_LockSurface(surf);
   for(int y=0;y<surf->h;y++)
   {
@@ -152,19 +153,18 @@ void Line(SDL_Surface *surf)
       }
       if(booleen2 == 0)
       {
- /*             SDL_Rect *tile;
-        SDL_Rect *positionExt = NULL;
-        SDL_Surface *temp_surface;
-
-        tile.x = Xmin;
-        tile.y = Ymin;
-        tile.h = haut;
-        tile.w = larg;*/ //useless 
-
-        Char(surf, 0/*Xmin*/, Ymin, haut, 0 /*larg*/);
-        Ymin = y + 1;
+	test2nd++;
+        printf(" test de la n-ième ligne ? %d \n", test2nd);
+        if(test2nd > 0 ){
+                printf("%dieme ligne \n", test2nd);
+        	//neurone(surf, Xmin, Ymin, haut, larg); //test a delete ?
+       		Char(surf, Xmin, Ymin, haut, larg);
+        }
+	Ymin = y + 1;
         haut = 0;
         booleen2 = 1;
+	
+
       }
     }
         //else (tant que il y a du noir)
@@ -182,9 +182,9 @@ void SavePartScreen(const char* nom, SDL_Surface *ecran, int Xmin, int Ymin, int
   rect1.x = Xmin, rect1.y = Ymin, rect1.w = larg, rect1.h = haut;
   rect2.x = 0, rect2.y = 0, rect2.w = larg, rect2.h = haut;
   SDL_UnlockSurface(image);
-   SDL_UnlockSurface(ecran);
+  SDL_UnlockSurface(ecran);
   printf("\n %d \n", SDL_BlitSurface(ecran, &rect1 , image,&rect2));
- printf("SDL blit surf	ce: %s\n", SDL_GetError());
+  printf("SDL blit surf	ce: %s\n", SDL_GetError());
 
  SDL_SaveBMP(image, nom);
  display_image(image);
@@ -221,9 +221,9 @@ void Char(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
       if(booleen2 == 0)
       {
         test2nd++;
-	printf("%d \n", test2nd);
-        if(test2nd == 2){
-           	printf("envoi neurone()");
+	printf(" test du n°ieme char ? %d \n", test2nd);
+        if(test2nd > 0){
+           	printf("envoi neurone() \n");
 		neurone(surf, Xmin, Ymin, haut, larg);
         }
         Xmin = x + 1;
@@ -246,8 +246,8 @@ void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
   SDL_Rect dstrect;
 	dstrect.x = 0;
 	dstrect.y = 0;
-  printf("x %d, y %d, larg %d, haut %d", Xmin, Ymin, larg, haut);
-  printf("surf.x %d, surf.y %d", surf->h, surf->w);
+  printf("x %d, y %d, larg %d, haut %d \n ", Xmin, Ymin, larg, haut);
+  printf("surf.x %d, surf.y %d \n ", surf->h, surf->w);
 //  char *name = "test.bmp";
  SavePartScreen("THISISOURCHARACTER.bmp", surf, Xmin, Ymin, larg, haut);
 //  printf("%d", SDL_BlitSurface(surf, NULL/*&OneChar*/, disp, &dstrect));
