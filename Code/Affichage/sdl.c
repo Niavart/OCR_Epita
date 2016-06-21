@@ -105,12 +105,31 @@ int main (int argc, char *argv[])
 		}
 		y = 0;
 		x++;
-	}
-	if(strcmp(argv[argc-1], "1")){
-	Line(img);
-	}
-	else{
-	display_image(img);
+	}/*
+	switch (argv[argc-1])
+	{
+	case 1:
+		Line(img);
+		break;
+	case 2:
+		display_image(img);
+		break;
+	case 3:
+		dilate_pixel(img);
+		break;
+	default:
+		printf("wrong or missing arg. Use 1, 2 or 3.");
+		break;
+	} */
+
+	if(strcmp(argv[argc-1], "1") == 0){
+	//	Line(img);
+	}if(strcmp(argv[argc-1], "2") == 0){
+	//	display_image(img);
+	}if(strcmp(argv[argc-1], "3") == 0){
+		dilate_pixel(img);
+	}else{ 
+		printf("wrong or missing arg. Use 1, 2 or 3.");
 	}
 	return 0;
 }
@@ -284,9 +303,61 @@ void neurone(SDL_Surface *surf, int Xmin, int Ymin, int haut, int larg){
 //  SDL_FreeSurface(&disp);
 	
 }
-void array_for_Nikolas();
+void dilate_pixel(SDL_Surface *surf){
+  Uint8 r = 0;
+  Uint8 g = 0;
+  Uint8 b = 0;
+  SDL_Rect blur;
+  blur.x = 0;
+  blur.y = 0;
+//  SavePartScreen("blurred_img.bmp", surf, 0, 0, surf->w, surf->h);
 
+  for(int y = 0; y < surf->h; y++)
+  {
+	for(int x= 0; x < surf->w; x++)
+	{
+		SDL_GetRGB( getpixel(surf, x, y), surf->format, &r, &g, &b);
+		if(r==0 && g==0 && b==0) /* Si c'est noir */
+		{	
+			printf("   x = %d \n", x);
+			//SDL_Rect *blur;
+			if(x == 0){ 
+				blur.x = x;
+			}
+			else if(x > surf->w - 10){ //si on arrive à la fin
+				blur.x = surf->w - 10;
+				printf(" \n %d > %d - 10", x, surf->w);
+				x = surf->w; //éviter des boucles en trop
+			}
+			else{ blur.x = x-10; }
+			blur.w = 10;
+			x = x+1; //éviter de passer sur les mêmes pixels noirs créés
+			if(y == 0){
+                                blur.y = y;
+                        }
+                        else if(y > surf->h - 10){
+                                blur.y = surf->h - 10;
+                                y = surf->h;
+                        }
+			else{ blur.y = y - 10;}
+			blur.h = 10;
+			y = y + 0; //éviter de passer sur les mêmes pixels noirs créés
+			SDL_Rect *blurred = &blur; //Init(&myRect, 5, 5, 50, 20);
+//			delete myRect; 
+			SDL_FillRect(surf, blurred, 0);
+		}
+	}
+  }
+  SavePartScreen("blurred_img.bmp", surf, 0, 0, surf->w, surf->h);
 
+} /*
+SDL_Rect *Init(int XPos, int YPos, int Width, int Height)
+{
+	SDL_Rect *Rect = new SDL_Rect;
+	Rect->h = Height;
+	Rect->w = Width;
+	Rect->x = XPos;
+	Rect->y = YPos;
 
-
-
+	return Rect;
+} */
