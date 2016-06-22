@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <gtk-2.0/gtk/gtk.h>
-#include <sdl>
+#include "sdl.c"
 void OnToggle();
 void Selection();
 void Chemin(GtkWidget *file_selection);

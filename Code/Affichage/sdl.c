@@ -69,7 +69,7 @@ SDL_Surface* display_image(SDL_Surface *img) {
   return screen;
 }
 
-int main (int argc, char *argv[])
+/*int main (int argc, char *argv[])
 {
 	char *name = argv[argc-2];
 	SDL_Surface *img = load_image(name);//"couleurs.bmp");
@@ -105,7 +105,9 @@ int main (int argc, char *argv[])
 		}
 		y = 0;
 		x++;
-	}/*
+	}
+
+        //IL Y AVAIT DES QUOTES ICI
 	switch (argv[argc-1])
 	{
 	case 1:
@@ -120,7 +122,7 @@ int main (int argc, char *argv[])
 	default:
 		printf("wrong or missing arg. Use 1, 2 or 3.");
 		break;
-	} */
+	} 
 
 	if(strcmp(argv[argc-1], "1") == 0){
 	//	Line(img);
@@ -132,8 +134,7 @@ int main (int argc, char *argv[])
 		printf("wrong or missing arg. Use 1, 2 or 3.");
 	}
 	return 0;
-}
-
+}*/
 
 
 void Line(SDL_Surface *surf)
