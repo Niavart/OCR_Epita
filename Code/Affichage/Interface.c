@@ -6,6 +6,7 @@ void OnToggle();
 void Selection();
 void dilate();
 void grey();
+int erreur();
 void Chemin (GtkWidget *widget, gpointer user_data);
 GtkWidget *pFilename = NULL;
 SDL_Surface *img = NULL;
@@ -14,7 +15,7 @@ int main(int argc, char **argv)
 {
     GtkWidget *MainWindow = NULL;
     GtkWidget *OKButton = NULL;
-    GtkWidget *dilate = NULL;
+    GtkWidget *Diilate = NULL;
     GtkWidget *ChooseFile = NULL;
     GtkWidget *Quitter = NULL;
     GtkWidget *Grey = NULL;
@@ -54,8 +55,8 @@ int main(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(pVBox), Grey, FALSE, FALSE, 0);
 
     /* Création du bouton test dilate_pixel*/
-    dilate = gtk_toggle_button_new_with_label("dilate_pixel");
-    gtk_box_pack_start(GTK_BOX(pVBox), dilate, FALSE, FALSE, 0);
+    Diilate = gtk_toggle_button_new_with_label("dilate_pixel");
+    gtk_box_pack_start(GTK_BOX(pVBox), Diilate, FALSE, FALSE, 0);
 
     gtk_box_pack_start(GTK_BOX(pVBox), Quitter, FALSE, FALSE, 0);
     gtk_widget_show_all(MainWindow);
@@ -63,7 +64,7 @@ int main(int argc, char **argv)
     /*g_signal_connect(G_OBJECT(ChooseFile), "toggled", G_CALLBACK(OnToggle), NULL);*/
     g_signal_connect(G_OBJECT(ChooseFile), "clicked", G_CALLBACK(Selection), NULL);
     g_signal_connect(G_OBJECT(OKButton), "toggled", G_CALLBACK(OnToggle), NULL);
-    g_signal_connect(G_OBJECT(dilate), "toggled", G_CALLBACK(dilate), NULL);
+    g_signal_connect(G_OBJECT(Diilate), "toggled", G_CALLBACK(dilate), NULL);
     g_signal_connect(G_OBJECT(Grey), "toggled", G_CALLBACK(grey), NULL);
     g_signal_connect(G_OBJECT(Quitter), "toggled", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(MainWindow), "delete-event", G_CALLBACK(gtk_main_quit), NULL);
