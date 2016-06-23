@@ -5,6 +5,7 @@
 void OnToggle();
 void Selection();
 void dilate();
+void grey();
 void Chemin (GtkWidget *widget, gpointer user_data);
 GtkWidget *pFilename = NULL;
 SDL_Surface *img = NULL;
@@ -16,6 +17,7 @@ int main(int argc, char **argv)
     GtkWidget *dilate = NULL;
     GtkWidget *ChooseFile = NULL;
     GtkWidget *Quitter = NULL;
+    GtkWidget *Grey = NULL;
     GtkWidget *pVBox = NULL;
 //  GtkWidget *pFilename = NULL;
     gchar *Filename = g_locale_to_utf8("Aucun fichier pour le moment", -1, NULL, NULL, NULL);
@@ -44,9 +46,13 @@ int main(int argc, char **argv)
     Quitter = gtk_toggle_button_new_with_label("Quitter");
 
     /* Création du bouton OK*/
-    OKButton = gtk_toggle_button_new_with_label("OK");
+    OKButton = gtk_toggle_button_new_with_label("Line");
     gtk_box_pack_start(GTK_BOX(pVBox), OKButton, FALSE, FALSE, 0);
-   
+    
+    /* Création du bouton Grey*/
+    Grey = gtk_toggle_button_new_with_label("GreyScale");
+    gtk_box_pack_start(GTK_BOX(pVBox), Grey, FALSE, FALSE, 0);
+
     /* Création du bouton test dilate_pixel*/
     dilate = gtk_toggle_button_new_with_label("dilate_pixel");
     gtk_box_pack_start(GTK_BOX(pVBox), dilate, FALSE, FALSE, 0);
@@ -58,20 +64,24 @@ int main(int argc, char **argv)
     g_signal_connect(G_OBJECT(ChooseFile), "clicked", G_CALLBACK(Selection), NULL);
     g_signal_connect(G_OBJECT(OKButton), "toggled", G_CALLBACK(OnToggle), NULL);
     g_signal_connect(G_OBJECT(dilate), "toggled", G_CALLBACK(dilate), NULL);
+    g_signal_connect(G_OBJECT(Grey), "toggled", G_CALLBACK(grey), NULL);
     g_signal_connect(G_OBJECT(Quitter), "toggled", G_CALLBACK(gtk_main_quit), NULL);
     g_signal_connect(G_OBJECT(MainWindow), "delete-event", G_CALLBACK(gtk_main_quit), NULL);
 
     gtk_main();
     return EXIT_SUCCESS;
 }
-void dilate(){
-	dilate_pixel(img);
+int erreur(){
+ 	return img == NULL;
 }
-void OnToggle()
-{	
-	Line(img);
-	//gtk_main_quit();
-
+void grey(){
+if(!erreur()){ grey_scale(img);}
+ }
+void dilate(){
+if(!erreur()) { dilate_pixel(img);}
+}
+void OnToggle(){	
+if(!erreur()) {	Line(img);}
 }
 
 void Selection()
@@ -95,15 +105,6 @@ void Chemin(GtkWidget *widget, gpointer user_data)
 //	char *pfile;
 	char *name = merde;
 	name = basename(name);
-/*    	pfile = name[0] + strlen(name[0]);
-   	for (; pfile > name[0]; pfile--)
-   	{
-       	    if ((*pfile == '\\') || (*pfile == '/'))
-            {
-           	 pfile++;
-          	 break;
-      	    }
- 	}*/
 //	char *name = &merde;
 	printf(" \n name is equal to %c", *name);
 	img = load_image(name);

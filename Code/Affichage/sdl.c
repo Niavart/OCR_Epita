@@ -3,10 +3,6 @@
 #include "sdl.h"
 #include "pixel_operations.h"
 #include "pixel_operations.c"
-/*
-#include "CharCut.h"
-#include "CharCut.c"
-*/
 
 void wait_for_keypressed(void) {
   SDL_Event             event;
@@ -72,7 +68,9 @@ SDL_Surface* display_image(SDL_Surface *img) {
 /*int main (int argc, char *argv[])
 {
 	char *name = argv[argc-2];
-	SDL_Surface *img = load_image(name);//"couleurs.bmp");
+	SDL_Surface *img = load_image(name);//"couleurs.bmp"); */
+
+void grey_scale(SDL_Surface *img){
 	Uint8 r = 0;
 	Uint8 g = 0;
 	Uint8 b = 0;
@@ -81,7 +79,7 @@ SDL_Surface* display_image(SDL_Surface *img) {
 	Uint32 pixel;
 	while (x != img->w)
 	{
-		while (y != img->h)											// Doit y avoir une erreur dans le main,...
+		while (y != img->h)
 		{
 			pixel = getpixel(img, x, y);
 			SDL_GetRGB(pixel, img->format, &r, &g, &b);
@@ -106,24 +104,9 @@ SDL_Surface* display_image(SDL_Surface *img) {
 		y = 0;
 		x++;
 	}
-
-        //IL Y AVAIT DES QUOTES ICI
-	switch (argv[argc-1])
-	{
-	case 1:
-		Line(img);
-		break;
-	case 2:
-		display_image(img);
-		break;
-	case 3:
-		dilate_pixel(img);
-		break;
-	default:
-		printf("wrong or missing arg. Use 1, 2 or 3.");
-		break;
-	} 
-
+	display_image(img);
+}
+/*
 	if(strcmp(argv[argc-1], "1") == 0){
 	//	Line(img);
 	}if(strcmp(argv[argc-1], "2") == 0){
